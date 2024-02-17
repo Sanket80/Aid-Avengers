@@ -1,10 +1,11 @@
+import 'package:bluebit1/pages/donation_screen.dart';
+import 'package:bluebit1/pages/payment_screen.dart';
 import 'package:flutter/material.dart';
 
 class DonationCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final String description;
-  final VoidCallback onPressed;
   final double totalDonationAmount; // Add total donation amount property
 
   const DonationCard({
@@ -12,7 +13,6 @@ class DonationCard extends StatelessWidget {
     required this.icon,
     required this.title,
     required this.description,
-    required this.onPressed,
     required this.totalDonationAmount,
   }) : super(key: key);
 
@@ -39,7 +39,7 @@ class DonationCard extends StatelessWidget {
                   SizedBox(width: 12),
                   Text(
                     title,
-                    style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
                   ),
                 ],
               ),
@@ -56,7 +56,9 @@ class DonationCard extends StatelessWidget {
               SizedBox(height: 12),
               Center(
                 child: ElevatedButton(
-                  onPressed: onPressed,
+                  onPressed: (){
+                    Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()) );
+                  },
                   style: ElevatedButton.styleFrom(
                     primary: Colors.grey[700], // Background color of the button
                     onPrimary: Colors.white, // Text color of the button

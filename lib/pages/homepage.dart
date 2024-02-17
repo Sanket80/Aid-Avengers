@@ -1,4 +1,5 @@
 import 'package:bluebit1/auth/mainpage.dart';
+import 'package:bluebit1/pages/Awarness.dart';
 import 'package:bluebit1/pages/donation_screen.dart';
 import 'package:bluebit1/read%20data/get_user_name.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -95,7 +96,9 @@ class _HomePageState extends State<HomePage> {
                 onPressed: (){
                   Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
                 },),
-              GButton(icon: Icons.search, text: 'Search'),
+              GButton(icon: Icons.search, text: 'Search',onPressed: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context) => AwarnessScreen()));
+              },),
               GButton(icon: Icons.settings,text: 'Settings',),
             ],),
         ),

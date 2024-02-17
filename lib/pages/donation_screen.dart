@@ -24,38 +24,26 @@ class _DonationScreenState extends State<DonationScreen> {
             children: [
               DonationCard(
                 title: 'Food',
-                icon: Icons.food_bank,
+                icon: Icons.food_bank_outlined,
                 description: 'Fill plates, fill hearts: Donate food today!',
-                onPressed: () {
-                  // Handle donate button press
-                },
                 totalDonationAmount: 100.0, // Example total donation amount
               ),
               DonationCard(
                 title: 'Medical',
                 icon: Icons.medical_services_outlined,
                 description: 'Healing begins with your donation. Be the cure.',
-                onPressed: () {
-                  // Handle donate button press
-                },
                 totalDonationAmount: 200.0, // Example total donation amount
               ),
               DonationCard(
                 title: 'Rescue',
                 icon: Icons.search,
                 description: 'Rescue Ready: Providing Tools to Save the Day!',
-                onPressed: () {
-                  // Handle donate button press
-                },
                 totalDonationAmount: 100.0, // Example total donation amount
               ),
               DonationCard(
                 title: 'Clothes',
                 icon: Icons.accessibility_new_rounded,
                 description: 'Dress for Success: Donate Clothes, Empower Lives!',
-                onPressed: () {
-                  // Handle donate button press
-                },
                 totalDonationAmount: 250.0, // Example total donation amount
               ),
 
