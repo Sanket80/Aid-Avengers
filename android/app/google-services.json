@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029764035246",
+    "project_id": "bluebit-bd5bf",
+    "storage_bucket": "bluebit-bd5bf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029764035246:android:2ce842ecae1a63e628333f",
+        "android_client_info": {
+          "package_name": "com.example.bluebit1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBgW2lamwXuWlQAoQPJi13cAKefNfFWNSc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
