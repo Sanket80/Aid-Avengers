@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Text('Firebase Setup Complete!'),
+      home: Text('Firebase Setup successful'),
     );
   }
 }
