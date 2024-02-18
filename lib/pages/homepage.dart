@@ -1,6 +1,7 @@
 import 'package:bluebit1/Widgets/event_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
 import 'package:bluebit1/pages/Awarness.dart';
+import 'package:bluebit1/pages/admin_login.dart';
 import 'package:bluebit1/pages/donation_screen.dart';
 import 'package:bluebit1/read%20data/get_user_name.dart';
 import 'package:bluebit1/read%20data/timeline.dart';
@@ -127,12 +128,6 @@ class _HomePageState extends State<HomePage> {
               GButton(
                 icon: Icons.home,
                 text: 'Home',
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => MainPage()),
-                  );
-                },
               ),
               GButton(
                 icon: Icons.monetization_on_outlined,
@@ -154,7 +149,14 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              GButton(icon: Icons.settings, text: 'Settings'),
+              GButton(icon: Icons.home_work_outlined, text: 'Admin',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AdminLogin()),
+                  );
+                },
+              ),
             ],
           ),
         ),

@@ -1,16 +1,16 @@
+import 'package:bluebit1/pages/add_event.dart';
 import 'package:bluebit1/pages/forgot_password_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  final VoidCallback showRegisterPage;
-  const LoginPage({super.key, required this.showRegisterPage});
+class AdminLogin extends StatefulWidget {
+  const AdminLogin({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<AdminLogin> createState() => _AdminLoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _AdminLoginState extends State<AdminLogin> {
 
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
@@ -66,7 +66,6 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -84,7 +83,7 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/logo.png',
+                Image.asset('assets/images/admin_logo.png',
                   height: 150,
                   width: 150,
                 ),
@@ -93,7 +92,7 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 // Hello Again!
                 Text(
-                  'Hello Again!',
+                  'Welcome Admin!',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
@@ -103,7 +102,7 @@ class _LoginPageState extends State<LoginPage> {
                   height: 10,
                 ),
                 Text(
-                  "Welcome back, you've been missed!",
+                  "You can add Events from here",
                   style: TextStyle(
                     fontSize: 22,
                   ),
@@ -195,7 +194,9 @@ class _LoginPageState extends State<LoginPage> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
-                    onTap: signIn,
+                    onTap: (){
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddEvent(),),);
+                    },
                     child: Container(
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -214,30 +215,6 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
                 ),
-                SizedBox(
-                  height: 18,
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Not a member?',style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),),
-                    TextButton(
-                      onPressed: widget.showRegisterPage,
-                      child: Text('Register Now',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-
               ],
             ),
           ),

@@ -28,14 +28,6 @@ class TimeLine extends StatelessWidget {
           beforeLineStyle: const LineStyle(
             color: Colors.black87,
           ),
-          indicatorStyle: IndicatorStyle(
-            width: 40,
-            color: Colors.black87,
-            iconStyle: IconStyle(
-              color: Colors.white,
-              iconData: Icons.call,
-            ),
-          ),
           endChild: GestureDetector(
             onTap: () {
               showDialog(

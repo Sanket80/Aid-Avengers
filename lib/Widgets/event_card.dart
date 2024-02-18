@@ -10,7 +10,7 @@ class EventCard extends StatelessWidget {
       margin: EdgeInsets.all(16),
       padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: Colors.grey[800],
+        color: Colors.grey[700],
         borderRadius: BorderRadius.circular(8),
       ),
       child: DefaultTextStyle(
