@@ -67,6 +67,8 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  int _selectedIndex = 0;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               controller: _searchController,
               onChanged: _filterEvents,
               decoration: InputDecoration(
-                labelText: 'Search',
+                labelText: 'Awarness',
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(
@@ -149,11 +151,14 @@ class _HomePageState extends State<HomePage> {
                           ),
                         ),
                         SizedBox(height: 6),
-                        Text(
-                          'News: ${filteredEvents[index].news}',
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.black54
+                        Padding(
+                          padding: const EdgeInsets.only(right: 14.0),
+                          child: Text(
+                            'News: ${filteredEvents[index].news}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              color: Colors.black54
+                            ),
                           ),
                         ),
                       ],
@@ -189,21 +194,31 @@ class _HomePageState extends State<HomePage> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: GNav(
+            selectedIndex: _selectedIndex,
             backgroundColor: Colors.black,
             activeColor: Colors.white,
             color: Colors.white,
             tabBackgroundColor: Colors.grey.shade800,
             gap: 8,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(12),
             tabs: [
               GButton(
                 icon: Icons.home,
                 text: 'Home',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                  // Add any other logic you need
+                },
               ),
               GButton(
                 icon: Icons.monetization_on_outlined,
                 text: 'Donate',
                 onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => DonationScreen()),
@@ -211,9 +226,12 @@ class _HomePageState extends State<HomePage> {
                 },
               ),
               GButton(
-                icon: Icons.search,
+                icon: Icons.add_chart_rounded,
                 text: 'Search',
                 onPressed: () {
+                  setState(() {
+                    _selectedIndex = 2;
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AwarnessScreen()),
@@ -224,6 +242,9 @@ class _HomePageState extends State<HomePage> {
                 icon: Icons.home_work_outlined,
                 text: 'Admin',
                 onPressed: () {
+                  setState(() {
+                    _selectedIndex = 3;
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => AdminLogin()),
@@ -234,6 +255,7 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
       ),
+
     );
   }
 }

@@ -1,5 +1,9 @@
+import 'package:bluebit1/pages/admin_login.dart';
 import 'package:bluebit1/pages/articles.dart';
+import 'package:bluebit1/pages/donation_screen.dart';
+import 'package:bluebit1/pages/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class AwarnessScreen extends StatefulWidget {
@@ -10,6 +14,9 @@ class AwarnessScreen extends StatefulWidget {
 }
 
 class _AwarnessScreenState extends State<AwarnessScreen> {
+
+  int _selectedIndex = 2;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -155,10 +162,79 @@ class _AwarnessScreenState extends State<AwarnessScreen> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
-      )
+      ),
+      bottomNavigationBar: Container(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+          child: GNav(
+            selectedIndex: _selectedIndex,
+            backgroundColor: Colors.black,
+            activeColor: Colors.white,
+            color: Colors.white,
+            tabBackgroundColor: Colors.grey.shade800,
+            gap: 8,
+            padding: EdgeInsets.all(12),
+            tabs: [
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.monetization_on_outlined,
+                text: 'Donate',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DonationScreen()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.add_chart_rounded,
+                text: 'Awarness',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 2;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AwarnessScreen()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.home_work_outlined,
+                text: 'Admin',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 3;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AdminLogin()),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
     );
   }
 }

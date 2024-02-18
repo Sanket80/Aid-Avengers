@@ -1,8 +1,12 @@
 import 'package:bluebit1/Widgets/donation_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
+import 'package:bluebit1/pages/homepage.dart';
 import 'package:bluebit1/pages/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+
+import 'Awarness.dart';
+import 'admin_login.dart';
 
 class DonationScreen extends StatefulWidget {
   const DonationScreen({super.key});
@@ -12,6 +16,8 @@ class DonationScreen extends StatefulWidget {
 }
 
 class _DonationScreenState extends State<DonationScreen> {
+  int _selectedIndex = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,23 +63,68 @@ class _DonationScreenState extends State<DonationScreen> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: GNav(
+            selectedIndex: _selectedIndex,
             backgroundColor: Colors.black,
             activeColor: Colors.white,
             color: Colors.white,
-            tabBackgroundColor: Colors.grey.shade900,
+            tabBackgroundColor: Colors.grey.shade800,
             gap: 8,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(12),
             tabs: [
-              GButton(icon: Icons.home, text: 'Home',onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
-              },),
-              GButton(icon: Icons.monetization_on_outlined, text: 'Donate',
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen()));
-                },),
-              GButton(icon: Icons.search, text: 'Search'),
-              GButton(icon: Icons.settings,text: 'Settings',),
-            ],),
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomePage()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.monetization_on_outlined,
+                text: 'Donate',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DonationScreen()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.add_chart_rounded,
+                text: 'Awarness',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 2;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AwarnessScreen()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.home_work_outlined,
+                text: 'Admin',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 3;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AdminLogin()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
