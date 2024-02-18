@@ -1,7 +1,9 @@
 import 'package:bluebit1/auth/mainpage.dart';
+import 'package:bluebit1/pages/admin_login.dart';
 import 'package:bluebit1/pages/donation_screen.dart';
 import 'package:bluebit1/pages/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:intl/intl.dart';
@@ -79,6 +81,37 @@ class _AddEventState extends State<AddEvent> {
     }
   }
 
+  // Want to Logout admin
+  Future<void> logout() async {
+    try {
+      await FirebaseAuth.instance.signOut();
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => MainPage()),
+      );
+    } catch (error) {
+      // Display error message
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Failed to sign out. Please try again.'),
+            actions: <Widget>[
+              TextButton(
+                onPressed: () {
+                  Navigator.of(context).pop();
+                },
+                child: Text('OK'),
+              ),
+            ],
+          );
+        },
+      );
+    }
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -116,6 +149,14 @@ class _AddEventState extends State<AddEvent> {
                               fontSize: 30,
                               fontWeight: FontWeight.bold,
                             ),
+                          ),
+                          // logout button
+                          Spacer(),
+                          IconButton(
+                            onPressed: () {
+                              logout();
+                            },
+                            icon: Icon(Icons.logout),
                           ),
                         ],
                       ),

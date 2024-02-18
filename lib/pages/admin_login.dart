@@ -1,17 +1,17 @@
 import 'package:bluebit1/pages/add_event.dart';
 import 'package:bluebit1/pages/forgot_password_page.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 class AdminLogin extends StatefulWidget {
-  const AdminLogin({super.key});
+  const AdminLogin({Key? key}) : super(key: key);
 
   @override
   State<AdminLogin> createState() => _AdminLoginState();
 }
 
 class _AdminLoginState extends State<AdminLogin> {
-
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -35,12 +35,39 @@ class _AdminLoginState extends State<AdminLogin> {
         },
       );
 
-      await FirebaseAuth.instance.signInWithEmailAndPassword(
-        email: _emailController.text,
-        password: _passwordController.text,
-      );
+      final email = _emailController.text;
+      final password = _passwordController.text;
 
-      Navigator.of(context).pop(); // Close the dialog
+      final isAdmin = await checkAdmin(email, password);
+
+      if (isAdmin) {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => AddEvent()),
+        );
+      } else {
+        // Close the dialog
+        Navigator.of(context).pop();
+
+        // Display error message
+        showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Error'),
+              content: Text('Failed to sign in. Please check your credentials and try again.'),
+              actions: <Widget>[
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text('OK'),
+                ),
+              ],
+            );
+          },
+        );
+      }
     } catch (error) {
       // Close the dialog
       Navigator.of(context).pop();
@@ -66,6 +93,22 @@ class _AdminLoginState extends State<AdminLogin> {
     }
   }
 
+
+  Future<bool> checkAdmin(String email, String password) async {
+    final adminCollection = FirebaseFirestore.instance.collection('admin');
+    final snapshot = await adminCollection.get();
+    bool isAdmin = false;
+
+    snapshot.docs.forEach((doc) {
+      if (doc['email'] == email && doc['password'] == password) {
+        isAdmin = true;
+      }
+    });
+
+    return isAdmin;
+  }
+
+
   @override
   void dispose() {
     _emailController.dispose();
@@ -83,7 +126,8 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset('assets/images/admin_logo.png',
+                Image.asset(
+                  'assets/images/admin_logo.png',
                   height: 150,
                   width: 150,
                 ),
@@ -123,7 +167,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20,top: 5,bottom: 5),
+                      padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
                       child: TextField(
                         controller: _emailController,
                         decoration: InputDecoration(
@@ -149,7 +193,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20,top: 5,bottom: 5),
+                      padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
                       child: TextField(
                         controller: _passwordController,
                         obscureText: true,
@@ -172,10 +216,14 @@ class _AdminLoginState extends State<AdminLogin> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: (){
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordPage(),),);
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
+                          );
                         },
-                        child: Text('Forgot Password?',
+                        child: Text(
+                          'Forgot Password?',
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontSize: 16,
@@ -194,8 +242,8 @@ class _AdminLoginState extends State<AdminLogin> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
-                    onTap: (){
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => AddEvent(),),);
+                    onTap: () {
+                      signIn();
                     },
                     child: Container(
                       padding: EdgeInsets.all(20),
@@ -204,7 +252,8 @@ class _AdminLoginState extends State<AdminLogin> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
-                        child: Text('Sign In',
+                        child: Text(
+                          'Sign In',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,

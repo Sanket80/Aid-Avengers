@@ -26,7 +26,17 @@ class TimeLine extends StatelessWidget {
           isFirst: isFirst,
           isLast: isLast,
           beforeLineStyle: const LineStyle(
-            color: Colors.black87,
+            color: Colors.grey,
+          ),
+          indicatorStyle: IndicatorStyle(
+            width: 20, // Adjust the width of the circle
+            height: 20, // Adjust the height of the circle
+            indicator: Container(
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: Colors.grey, // Set the color of the circle
+              ),
+            ),
           ),
           endChild: GestureDetector(
             onTap: () {
