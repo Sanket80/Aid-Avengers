@@ -25,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  CircularProgressIndicator(),
+                  Center(child: CircularProgressIndicator()),
                   SizedBox(height: 10),
                   Text('Please wait...'),
                 ],

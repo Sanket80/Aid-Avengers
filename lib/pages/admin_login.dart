@@ -22,13 +22,15 @@ class _AdminLoginState extends State<AdminLogin> {
         builder: (context) {
           return AlertDialog(
             title: Text('Signing In'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10),
-                  Text('Please wait...'),
-                ],
+            content: Center(
+              child: SingleChildScrollView(
+                child: ListBody(
+                  children: <Widget>[
+                    CircularProgressIndicator(),
+                    SizedBox(height: 10),
+                    Text('Please wait...'),
+                  ],
+                ),
               ),
             ),
           );
