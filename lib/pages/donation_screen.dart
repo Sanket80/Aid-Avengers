@@ -1,4 +1,4 @@
-import 'package:bluebit1/auth/donation_card.dart';
+import 'package:bluebit1/Widgets/donation_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';

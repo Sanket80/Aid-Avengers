@@ -2,6 +2,7 @@ import 'package:bluebit1/auth/mainpage.dart';
 import 'package:bluebit1/pages/Awarness.dart';
 import 'package:bluebit1/pages/donation_screen.dart';
 import 'package:bluebit1/read%20data/get_user_name.dart';
+import 'package:bluebit1/read%20data/timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -50,31 +51,15 @@ class _HomePageState extends State<HomePage> {
         ],
       ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-                child: FutureBuilder(
-                    future: getDocIds(),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.done) {
-                        return ListView.builder(
-                          itemCount: docIds.length,
-                          itemBuilder: (context, index) {
-                            return Padding(
-                              padding: const EdgeInsets.all(8.0),
-                              child: ListTile(
-                                title: GetUserName(documentId: docIds[index]),
-                                tileColor: Colors.grey[200],
-                              ),
-                            );
-                          },
-                        );
-                      } else {
-                        return Center(child: CircularProgressIndicator());
-                      }
-                    })),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: ListView(
+            children: [
+              TimeLine(isFirst: true, isLast: false, isPast: true),
+              TimeLine(isFirst: false, isLast: false, isPast: true),
+              TimeLine(isFirst: false, isLast: true, isPast: false),
+            ],
+          ),
         ),
       ),
       bottomNavigationBar: Container(
