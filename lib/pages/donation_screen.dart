@@ -1,5 +1,6 @@
 import 'package:bluebit1/Widgets/donation_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
+import 'package:bluebit1/pages/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
@@ -68,7 +69,7 @@ class _DonationScreenState extends State<DonationScreen> {
               },),
               GButton(icon: Icons.monetization_on_outlined, text: 'Donate',
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen()));
                 },),
               GButton(icon: Icons.search, text: 'Search'),
               GButton(icon: Icons.settings,text: 'Settings',),

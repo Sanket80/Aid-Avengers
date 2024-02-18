@@ -1,4 +1,3 @@
-import 'package:razorpay_flutter/razorpay_flutter.dart';
 import 'package:flutter/material.dart';
 
 class PaymentScreen extends StatefulWidget {

@@ -14,7 +14,7 @@ import '../read data/event_data.dart';
 
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -24,7 +24,9 @@ class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser;
 
   List<EventData> events = [];
+  List<EventData> filteredEvents = [];
   bool isLoading = true;
+  TextEditingController _searchController = TextEditingController();
 
   @override
   void initState() {
@@ -53,7 +55,14 @@ class _HomePageState extends State<HomePage> {
 
     setState(() {
       events = loadedEvents;
+      filteredEvents = events; // Initialize filtered events with all events
       isLoading = false;
+    });
+  }
+
+  void _filterEvents(String query) {
+    setState(() {
+      filteredEvents = events.where((event) => event.city.toLowerCase().contains(query.toLowerCase())).toList();
     });
   }
 
@@ -80,38 +89,57 @@ class _HomePageState extends State<HomePage> {
       ),
       body: isLoading
           ? Center(child: CircularProgressIndicator())
-          : ListView.builder(
-        itemCount: events.length,
-        itemBuilder: (context, index) {
-          return TimeLine(
-            isFirst: index == 0,
-            isLast: index == events.length - 1,
-            isPast: DateTime.now().isAfter(events[index].time),
-            eventCard: EventCard(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Text(
-                      '${events[index].title}',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 12),
-                  Text(
-                    'News: ${events[index].news}',
-                    style: TextStyle(
-                      fontSize: 16,
-                    ),
-                  ),
-                ],
+          : Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _searchController,
+              onChanged: _filterEvents,
+              decoration: InputDecoration(
+                labelText: 'Search by City',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(),
               ),
-            ), emergencyNo: events[index].emergencyNo,
-          );
-        },
+            ),
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemCount: filteredEvents.length,
+              itemBuilder: (context, index) {
+                return TimeLine(
+                  isFirst: index == 0,
+                  isLast: index == filteredEvents.length - 1,
+                  isPast: DateTime.now().isAfter(filteredEvents[index].time),
+                  eventCard: EventCard(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Center(
+                          child: Text(
+                            '${filteredEvents[index].title}',
+                            style: TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                            ),
+                          ),
+                        ),
+                        SizedBox(height: 12),
+                        Text(
+                          'News: ${filteredEvents[index].news}',
+                          style: TextStyle(
+                            fontSize: 16,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  emergencyNo: filteredEvents[index].emergencyNo,
+                );
+              },
+            ),
+          ),
+        ],
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -149,7 +177,9 @@ class _HomePageState extends State<HomePage> {
                   );
                 },
               ),
-              GButton(icon: Icons.home_work_outlined, text: 'Admin',
+              GButton(
+                icon: Icons.home_work_outlined,
+                text: 'Admin',
                 onPressed: () {
                   Navigator.push(
                     context,
@@ -164,4 +194,5 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
+
 
