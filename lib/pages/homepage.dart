@@ -1,3 +1,4 @@
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bluebit1/Widgets/event_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
 import 'package:bluebit1/pages/Awarness.dart';
@@ -139,6 +140,24 @@ class _HomePageState extends State<HomePage> {
               },
             ),
           ),
+
+          // want to add floating action button
+          // FloatingActionButton(
+          //   onPressed: () {
+          //     AwesomeNotifications().createNotification(
+          //       content: NotificationContent(
+          //         id: 1,
+          //         channelKey: 'basic_channel',
+          //         title: 'Bluebit',
+          //         body: 'New Event has been added',
+          //         icon: 'resource://drawable/logo.png',
+          //
+          //         // Specify the name of your small icon file
+          //       ),
+          //     );
+          //   },
+          // )
+
         ],
       ),
       bottomNavigationBar: Container(
