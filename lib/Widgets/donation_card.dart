@@ -1,3 +1,4 @@
+import 'package:bluebit1/pages/payment_screen.dart';
 import 'package:flutter/material.dart';
 
 import '../pages/donation_screen.dart';
@@ -102,7 +103,7 @@ class DonationCard extends StatelessWidget {
               SizedBox(height: 12),
               ElevatedButton(
                 onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                   primary: Colors.black,
