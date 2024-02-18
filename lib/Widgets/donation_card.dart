@@ -1,6 +1,6 @@
-import 'package:bluebit1/pages/donation_screen.dart';
-import 'package:bluebit1/pages/payment_screen.dart';
 import 'package:flutter/material.dart';
+
+import '../pages/donation_screen.dart';
 
 class DonationCard extends StatelessWidget {
   final IconData icon;
@@ -22,55 +22,99 @@ class DonationCard extends StatelessWidget {
       width: MediaQuery.of(context).size.width * 0.9, // Adjust width for two cards in a row
       child: Card(
         margin: EdgeInsets.all(8),
-        color: Colors.grey[200],
+        color: Color(0xFFF0EDE7), // Set card background color to #EDE8E2
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(
-                    icon,
-                    size: 50,
-                    color: Colors.grey[800],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          title,
+                          style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
                   SizedBox(width: 12),
-                  Text(
-                    title,
-                    style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold),
+                  Container(
+                    padding: EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.black, // Set background color to black
+                    ),
+                    child: Icon(
+                      icon,
+                      size: 30,
+                      color: Colors.white, // Set icon color to white
+                    ),
                   ),
                 ],
               ),
-              SizedBox(height: 12),
-              Text(
-                description,
-                style: TextStyle(fontSize: 20),
+              SizedBox(height: 4),
+              Padding(
+                padding: const EdgeInsets.only(right: 70),
+                child: Text(
+                  description,
+                  style: TextStyle(fontSize: 20, color: Colors.black,fontWeight: FontWeight.w500),
+                ),
               ),
               SizedBox(height: 12),
-              Text(
-                'Total Donation: \$${totalDonationAmount.toStringAsFixed(2)}', // Show total donation amount
-                style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.red),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '\$${totalDonationAmount.toStringAsFixed(2)}',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                      Text(
+                        'Total Donation',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                  SizedBox(
+                    width: 50,
+                  ),
+                  Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        '${totalDonationAmount.toStringAsFixed(2)}',
+                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                      Text(
+                        'No. of Donations',
+                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                      ),
+                    ],
+                  ),
+                ],
+
               ),
               SizedBox(height: 12),
-              Center(
-                child: ElevatedButton(
-                  onPressed: (){
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()) );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.grey[700], // Background color of the button
-                    onPrimary: Colors.white, // Text color of the button
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(6), // Border radius of the button
-                    ),
-                    padding: EdgeInsets.symmetric(vertical: 12, horizontal: 32), // Adjust button padding
+              ElevatedButton(
+                onPressed: (){
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
+                },
+                style: ElevatedButton.styleFrom(
+                  primary: Colors.black,
+                  onPrimary: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(6),
                   ),
-                  child: Text(
-                    'Donate Now',
-                    style: TextStyle(fontSize: 18), // Adjust button text size
-                  ),
+                  padding: EdgeInsets.symmetric(vertical: 12, horizontal: 52),
+                ),
+                child: Text(
+                  'Donate Now',
+                  style: TextStyle(fontSize: 18),
                 ),
               ),
             ],

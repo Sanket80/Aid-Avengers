@@ -75,7 +75,8 @@ class _HomePageState extends State<HomePage> {
           child: Text(
             user!.email!,
             style: TextStyle(
-              fontSize: 16,
+              fontSize: 22,
+              fontWeight: FontWeight.bold,
             ),
           ),
         ),
@@ -93,17 +94,40 @@ class _HomePageState extends State<HomePage> {
           : Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(
+              left: 40.0,
+              right: 28.0,
+              bottom: 12.0,
+            ),
             child: TextField(
               controller: _searchController,
               onChanged: _filterEvents,
               decoration: InputDecoration(
-                labelText: 'Search by City',
-                prefixIcon: Icon(Icons.search),
-                border: OutlineInputBorder(),
+                labelText: 'Search',
+                floatingLabelBehavior: FloatingLabelBehavior.never,
+                prefixIcon: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 24.0,
+                    right: 8.0,
+                  ),
+
+                  child: Icon(Icons.search, color: Colors.white),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(32.0),
+                  borderSide: BorderSide(
+                    color: Colors.white, // Border color
+                    width: 1.0, // Border width
+                  ),
+                ),
+                labelStyle: TextStyle(color: Colors.white), // Label text color
+                fillColor: Colors.black, // Background color
+                filled: true,
               ),
+              style: TextStyle(color: Colors.white), // Text color
             ),
           ),
+
           Expanded(
             child: ListView.builder(
               itemCount: filteredEvents.length,
@@ -116,20 +140,20 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Center(
-                          child: Text(
-                            '${filteredEvents[index].title}',
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            ),
+                        Text(
+                          '${filteredEvents[index].title}',
+                          style: TextStyle(
+                            fontSize: 24,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black
                           ),
                         ),
-                        SizedBox(height: 12),
+                        SizedBox(height: 6),
                         Text(
                           'News: ${filteredEvents[index].news}',
                           style: TextStyle(
-                            fontSize: 16,
+                            fontSize: 18,
+                            color: Colors.black54
                           ),
                         ),
                       ],
@@ -168,7 +192,7 @@ class _HomePageState extends State<HomePage> {
             backgroundColor: Colors.black,
             activeColor: Colors.white,
             color: Colors.white,
-            tabBackgroundColor: Colors.grey.shade900,
+            tabBackgroundColor: Colors.grey.shade800,
             gap: 8,
             padding: EdgeInsets.all(16),
             tabs: [

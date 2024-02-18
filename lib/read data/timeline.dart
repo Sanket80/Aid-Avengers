@@ -26,15 +26,15 @@ class TimeLine extends StatelessWidget {
           isFirst: isFirst,
           isLast: isLast,
           beforeLineStyle: const LineStyle(
-            color: Colors.grey,
+            color: Colors.black87,
           ),
           indicatorStyle: IndicatorStyle(
-            width: 20, // Adjust the width of the circle
-            height: 20, // Adjust the height of the circle
+            width: 18, // Adjust the width of the circle
+            height: 18, // Adjust the height of the circle
             indicator: Container(
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.grey, // Set the color of the circle
+                color: Colors.black, // Set the color of the circle
               ),
             ),
           ),

@@ -8,9 +8,8 @@ class EventCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(10),
+      padding: EdgeInsets.all(5),
       decoration: BoxDecoration(
-        color: Colors.grey[700],
         borderRadius: BorderRadius.circular(8),
       ),
       child: DefaultTextStyle(
