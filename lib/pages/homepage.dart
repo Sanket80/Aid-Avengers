@@ -1,3 +1,4 @@
+import 'package:bluebit1/Widgets/event_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
 import 'package:bluebit1/pages/Awarness.dart';
 import 'package:bluebit1/pages/donation_screen.dart';
@@ -7,6 +8,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
+
+import '../read data/event_data.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -19,14 +22,38 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final user = FirebaseAuth.instance.currentUser;
 
-  List<String> docIds = [];
-  Future getDocIds() async {
-    await FirebaseFirestore.instance
-        .collection('Users')
-        .get()
-        .then((snapshot) => snapshot.docs.forEach((document) {
-      docIds.add(document.reference.id);
-    }));
+  List<EventData> events = [];
+  bool isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    fetchEventsData();
+  }
+
+  Future<void> fetchEventsData() async {
+    final eventsCollection = FirebaseFirestore.instance.collection('Events');
+    final snapshot = await eventsCollection.get();
+    final List<EventData> loadedEvents = [];
+
+    snapshot.docs.forEach((doc) {
+      final eventData = EventData(
+        state: doc['state'],
+        city: doc['city'],
+        emergencyNo: doc['emergency_no'],
+        time: DateTime.parse(doc['time']),
+        news: doc['news'],
+        title: doc['title'],
+      );
+      loadedEvents.add(eventData);
+    });
+
+    loadedEvents.sort((a, b) => a.time.compareTo(b.time));
+
+    setState(() {
+      events = loadedEvents;
+      isLoading = false;
+    });
   }
 
   @override
@@ -50,17 +77,40 @@ class _HomePageState extends State<HomePage> {
           ),
         ],
       ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: ListView(
-            children: [
-              TimeLine(isFirst: true, isLast: false, isPast: true),
-              TimeLine(isFirst: false, isLast: false, isPast: true),
-              TimeLine(isFirst: false, isLast: true, isPast: false),
-            ],
-          ),
-        ),
+      body: isLoading
+          ? Center(child: CircularProgressIndicator())
+          : ListView.builder(
+        itemCount: events.length,
+        itemBuilder: (context, index) {
+          return TimeLine(
+            isFirst: index == 0,
+            isLast: index == events.length - 1,
+            isPast: DateTime.now().isAfter(events[index].time),
+            eventCard: EventCard(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Text(
+                      '${events[index].title}',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 12),
+                  Text(
+                    'News: ${events[index].news}',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ],
+              ),
+            ), emergencyNo: events[index].emergencyNo,
+          );
+        },
       ),
       bottomNavigationBar: Container(
         color: Colors.black,
@@ -74,20 +124,42 @@ class _HomePageState extends State<HomePage> {
             gap: 8,
             padding: EdgeInsets.all(16),
             tabs: [
-              GButton(icon: Icons.home, text: 'Home',onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
-              },),
-              GButton(icon: Icons.monetization_on_outlined, text: 'Donate',
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
-                },),
-              GButton(icon: Icons.search, text: 'Search',onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => AwarnessScreen()));
-              },),
-              GButton(icon: Icons.settings,text: 'Settings',),
-            ],),
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => MainPage()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.monetization_on_outlined,
+                text: 'Donate',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => DonationScreen()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.search,
+                text: 'Search',
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => AwarnessScreen()),
+                  );
+                },
+              ),
+              GButton(icon: Icons.settings, text: 'Settings'),
+            ],
+          ),
         ),
       ),
     );
   }
 }
+

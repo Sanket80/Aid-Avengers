@@ -1,21 +1,22 @@
 import 'package:flutter/material.dart';
 
 class EventCard extends StatelessWidget {
-  const EventCard({super.key});
+  final child;
+  EventCard({super.key,required this.child});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.all(16),
-      padding: EdgeInsets.all(40),
+      padding: EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Colors.grey[800],
         borderRadius: BorderRadius.circular(8),
       ),
-      child: Text('Event Card',style: TextStyle(
-        color: Colors.white,
-        fontSize: 18,
-      ),),
+      child: DefaultTextStyle(
+        style: TextStyle(color: Colors.white),
+          child: child,
+      ),
     );
   }
 }
