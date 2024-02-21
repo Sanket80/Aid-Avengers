@@ -1,6 +1,6 @@
-import 'package:bluebit1/pages/login_page.dart';
+import 'package:bluebit1/pages/user/login_page.dart';
 import 'package:flutter/material.dart';
-import '../pages/register_page.dart';
+import '../pages/user/register_page.dart';
 
 class AuthPage extends StatefulWidget {
   const AuthPage({super.key});

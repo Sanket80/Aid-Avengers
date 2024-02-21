@@ -1,17 +1,17 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bluebit1/Widgets/event_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
-import 'package:bluebit1/pages/Awarness.dart';
-import 'package:bluebit1/pages/admin_login.dart';
-import 'package:bluebit1/pages/donation_screen.dart';
+import 'package:bluebit1/pages/user/Awareness.dart';
+import 'package:bluebit1/pages/admin/admin_login.dart';
+import 'package:bluebit1/pages/user/donation_screen.dart';
+import 'package:bluebit1/pages/ground_worker/user_event.dart';
 import 'package:bluebit1/read%20data/get_user_name.dart';
-import 'package:bluebit1/read%20data/timeline.dart';
+import 'package:bluebit1/Widgets/timeline.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import '../read data/event_data.dart';
+import '../../read data/event_data.dart';
 
 
 class HomePage extends StatefulWidget {
@@ -105,7 +105,7 @@ class _HomePageState extends State<HomePage> {
               controller: _searchController,
               onChanged: _filterEvents,
               decoration: InputDecoration(
-                labelText: 'Awarness',
+                labelText: 'Search',
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: Padding(
                   padding: const EdgeInsets.only(
@@ -134,41 +134,44 @@ class _HomePageState extends State<HomePage> {
             child: ListView.builder(
               itemCount: filteredEvents.length,
               itemBuilder: (context, index) {
+                final eventIndex = filteredEvents.length - 1 - index; // Calculate the event index without reversing the entire list
                 return TimeLine(
-                  isFirst: index == 0,
-                  isLast: index == filteredEvents.length - 1,
-                  isPast: DateTime.now().isAfter(filteredEvents[index].time),
+                  isFirst: index == 0, // Check if it's the first event
+                  isLast: index == filteredEvents.length - 1, // Check if it's the last event
+                  isPast: DateTime.now().isAfter(filteredEvents[eventIndex].time),
                   eventCard: EventCard(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${filteredEvents[index].title}',
+                          '${filteredEvents[eventIndex].title}',
                           style: TextStyle(
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
-                            color: Colors.black
+                            color: Colors.black,
                           ),
                         ),
                         SizedBox(height: 6),
                         Padding(
                           padding: const EdgeInsets.only(right: 14.0),
                           child: Text(
-                            'News: ${filteredEvents[index].news}',
+                            'News: ${filteredEvents[eventIndex].news}',
                             style: TextStyle(
                               fontSize: 18,
-                              color: Colors.black54
+                              color: Colors.black54,
                             ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  emergencyNo: filteredEvents[index].emergencyNo,
+                  emergencyNo: filteredEvents[eventIndex].emergencyNo,
                 );
               },
             ),
           ),
+
+
 
           // want to add floating action button
           // FloatingActionButton(
@@ -189,6 +192,26 @@ class _HomePageState extends State<HomePage> {
 
         ],
       ),
+      floatingActionButton: SizedBox(
+        width: 70, // Adjust width as needed
+        height: 70, // Adjust height as needed
+        child: FloatingActionButton(
+          onPressed: () {
+            // route to the add event page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => UserEvents()),
+            );
+          },
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 4,
+          heroTag: 'alertButton', // Specify a unique heroTag to avoid conflicts
+          child: Icon(Icons.add_alert, size: 34),
+        ),
+      ),
+
+
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(

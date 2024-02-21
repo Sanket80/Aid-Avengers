@@ -1,7 +1,5 @@
-import 'package:bluebit1/pages/payment_screen.dart';
 import 'package:flutter/material.dart';
-
-import '../pages/donation_screen.dart';
+import '../pages/user/payment_screen.dart';
 
 class DonationCard extends StatelessWidget {
   final IconData icon;
@@ -9,7 +7,7 @@ class DonationCard extends StatelessWidget {
   final String description;
   final double totalDonationAmount; // Add total donation amount property
 
-  const DonationCard({
+  DonationCard({
     Key? key,
     required this.icon,
     required this.title,
@@ -17,13 +15,17 @@ class DonationCard extends StatelessWidget {
     required this.totalDonationAmount,
   }) : super(key: key);
 
+  // Manually add names and donation amounts for demonstration
+  final List<String> donorNames = ['Sanket Kadam', 'Mithilesh Rajput', 'Swapnil Kapale'];
+  final List<double> donationAmounts = [500.0, 1000.0, 750.0];
+
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width * 0.9, // Adjust width for two cards in a row
+      width: MediaQuery.of(context).size.width * 0.9,
       child: Card(
         margin: EdgeInsets.all(8),
-        color: Color(0xFFF0EDE7), // Set card background color to #EDE8E2
+        color: Color.fromRGBO(255, 255, 238, 1.0),
         child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
@@ -46,12 +48,12 @@ class DonationCard extends StatelessWidget {
                     padding: EdgeInsets.all(8),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.black, // Set background color to black
+                      color: Colors.black,
                     ),
                     child: Icon(
                       icon,
                       size: 30,
-                      color: Colors.white, // Set icon color to white
+                      color: Colors.white,
                     ),
                   ),
                 ],
@@ -72,7 +74,7 @@ class DonationCard extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        '\$${totalDonationAmount.toStringAsFixed(2)}',
+                        '\₹${totalDonationAmount.toStringAsFixed(2)}',
                         style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
                       ),
                       Text(
@@ -84,25 +86,29 @@ class DonationCard extends StatelessWidget {
                   SizedBox(
                     width: 50,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        '${totalDonationAmount.toStringAsFixed(2)}',
-                        style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
-                      ),
-                      Text(
-                        'No. of Donations',
-                        style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
-                      ),
-                    ],
+                  GestureDetector(
+                    onTap: () {
+                      _showDonationsDialog(context);
+                    },
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text(
+                          '${donationAmounts.length}',
+                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.red),
+                        ),
+                        Text(
+                          'No. of Donations',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: Colors.black),
+                        ),
+                      ],
+                    ),
                   ),
                 ],
-
               ),
               SizedBox(height: 12),
               ElevatedButton(
-                onPressed: (){
+                onPressed: () {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen()));
                 },
                 style: ElevatedButton.styleFrom(
@@ -122,6 +128,36 @@ class DonationCard extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+
+  // Method to show donations dialog
+  void _showDonationsDialog(BuildContext context) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Donations'),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: List.generate(
+              donorNames.length,
+                  (index) => ListTile(
+                title: Text('${donorNames[index]}'),
+                subtitle: Text('Amount: \$${donationAmounts[index].toStringAsFixed(2)}'),
+              ),
+            ),
+          ),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Close'),
+            ),
+          ],
+        );
+      },
     );
   }
 }

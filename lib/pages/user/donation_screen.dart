@@ -1,12 +1,12 @@
 import 'package:bluebit1/Widgets/donation_card.dart';
 import 'package:bluebit1/auth/mainpage.dart';
-import 'package:bluebit1/pages/homepage.dart';
-import 'package:bluebit1/pages/payment_screen.dart';
+import 'package:bluebit1/pages/user/homepage.dart';
+import 'package:bluebit1/pages/user/payment_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
-import 'Awarness.dart';
-import 'admin_login.dart';
+import 'Awareness.dart';
+import '../admin/admin_login.dart';
 
 class DonationScreen extends StatefulWidget {
   const DonationScreen({super.key});
@@ -33,25 +33,25 @@ class _DonationScreenState extends State<DonationScreen> {
                 title: 'Food',
                 icon: Icons.food_bank_outlined,
                 description: 'Fill plates, fill hearts: Donate food today!',
-                totalDonationAmount: 100.0, // Example total donation amount
+                totalDonationAmount: 10000.0, // Example total donation amount
               ),
               DonationCard(
                 title: 'Medical',
                 icon: Icons.medical_services_outlined,
                 description: 'Healing begins with your donation. Be the cure.',
-                totalDonationAmount: 200.0, // Example total donation amount
+                totalDonationAmount: 15000.0, // Example total donation amount
               ),
               DonationCard(
                 title: 'Rescue',
                 icon: Icons.search,
                 description: 'Rescue Ready: Providing Tools to Save the Day!',
-                totalDonationAmount: 100.0, // Example total donation amount
+                totalDonationAmount: 18000.0, // Example total donation amount
               ),
               DonationCard(
                 title: 'Clothes',
                 icon: Icons.accessibility_new_rounded,
                 description: 'Dress for Success: Donate Clothes, Empower Lives!',
-                totalDonationAmount: 250.0, // Example total donation amount
+                totalDonationAmount: 2500.0, // Example total donation amount
               ),
 
             ],
@@ -99,7 +99,7 @@ class _DonationScreenState extends State<DonationScreen> {
               ),
               GButton(
                 icon: Icons.add_chart_rounded,
-                text: 'Awarness',
+                text: 'Awareness',
                 onPressed: () {
                   setState(() {
                     _selectedIndex = 2;

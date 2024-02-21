@@ -1,7 +1,7 @@
-import 'package:bluebit1/pages/Awarness.dart';
-import 'package:bluebit1/pages/admin_login.dart';
-import 'package:bluebit1/pages/donation_screen.dart';
-import 'package:bluebit1/pages/homepage.dart';
+import 'package:bluebit1/pages/user/Awareness.dart';
+import 'package:bluebit1/pages/admin/admin_login.dart';
+import 'package:bluebit1/pages/user/donation_screen.dart';
+import 'package:bluebit1/pages/user/homepage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
@@ -20,7 +20,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   final TextEditingController _amountController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   String _selectedCategory = 'Food';
-  int _selectedIndex = 2;
+  int _selectedIndex = 1;
 
   Future<void> _makePayment() async {
     final String name = _nameController.text.trim();
@@ -325,7 +325,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
               ),
               GButton(
                 icon: Icons.add_chart_rounded,
-                text: 'Awarness',
+                text: 'Awareness',
                 onPressed: () {
                   setState(() {
                     _selectedIndex = 2;

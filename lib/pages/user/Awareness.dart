@@ -1,7 +1,8 @@
-import 'package:bluebit1/pages/admin_login.dart';
-import 'package:bluebit1/pages/articles.dart';
-import 'package:bluebit1/pages/donation_screen.dart';
-import 'package:bluebit1/pages/homepage.dart';
+import 'package:bluebit1/pages/Bot/mybot.dart';
+import 'package:bluebit1/pages/admin/admin_login.dart';
+import 'package:bluebit1/pages/user/articles.dart';
+import 'package:bluebit1/pages/user/donation_screen.dart';
+import 'package:bluebit1/pages/user/homepage.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -22,7 +23,7 @@ class _AwarnessScreenState extends State<AwarnessScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: Text('Awarness', style: TextStyle(color: Colors.white),),
+        title: Text('Awareness', style: TextStyle(color: Colors.white),),
         iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Container(
@@ -166,6 +167,24 @@ class _AwarnessScreenState extends State<AwarnessScreen> {
           ],
         ),
       ),
+      floatingActionButton: SizedBox(
+        width: 70, // Adjust width as needed
+        height: 70, // Adjust height as needed
+        child: FloatingActionButton(
+          onPressed: () {
+            // route to the add event page
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => ChatBot(),),
+            );
+          },
+          backgroundColor: Colors.black,
+          foregroundColor: Colors.white,
+          elevation: 4,
+          heroTag: 'alertButton', // Specify a unique heroTag to avoid conflicts
+          child: Icon(Icons.chat, size: 34),
+        ),
+      ),
       bottomNavigationBar: Container(
         color: Colors.black,
         child: Padding(
@@ -207,7 +226,7 @@ class _AwarnessScreenState extends State<AwarnessScreen> {
               ),
               GButton(
                 icon: Icons.add_chart_rounded,
-                text: 'Awarness',
+                text: 'Awareness',
                 onPressed: () {
                   setState(() {
                     _selectedIndex = 2;

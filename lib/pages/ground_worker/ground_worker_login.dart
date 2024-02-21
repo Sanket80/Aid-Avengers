@@ -1,20 +1,19 @@
-import 'package:bluebit1/pages/forgot_password_page.dart';
+import 'package:bluebit1/auth/forgot_password_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class LoginPage extends StatefulWidget {
-  final VoidCallback showRegisterPage;
-  const LoginPage({super.key, required this.showRegisterPage});
+import '../Home_Screen.dart';
+
+class GroundLogin extends StatefulWidget {
+  const GroundLogin({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<GroundLogin> createState() => _GroundLoginState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _GroundLoginState extends State<GroundLogin> {
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-
+  // sign in function and navgate to home page
   Future<void> signIn() async {
     try {
       showDialog(
@@ -41,6 +40,10 @@ class _LoginPageState extends State<LoginPage> {
       );
 
       Navigator.of(context).pop(); // Close the dialog
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => HomeScreen()),
+      );
     } catch (error) {
       // Close the dialog
       Navigator.of(context).pop();
@@ -66,13 +69,8 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-
-  @override
-  void dispose() {
-    _emailController.dispose();
-    _passwordController.dispose();
-    super.dispose();
-  }
+  TextEditingController _emailController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -216,26 +214,6 @@ class _LoginPageState extends State<LoginPage> {
                 ),
                 SizedBox(
                   height: 18,
-                ),
-
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text('Not a member?',style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                    ),),
-                    TextButton(
-                      onPressed: widget.showRegisterPage,
-                      child: Text('Register Now',
-                        style: TextStyle(
-                          color: Colors.blue,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
 
               ],

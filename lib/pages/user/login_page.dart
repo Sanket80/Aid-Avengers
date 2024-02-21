@@ -1,17 +1,18 @@
-import 'package:bluebit1/pages/add_event.dart';
-import 'package:bluebit1/pages/forgot_password_page.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:bluebit1/auth/forgot_password_page.dart';
+import 'package:bluebit1/pages/ground_worker/ground_worker_login.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
-class AdminLogin extends StatefulWidget {
-  const AdminLogin({Key? key}) : super(key: key);
+class LoginPage extends StatefulWidget {
+  final VoidCallback showRegisterPage;
+  const LoginPage({super.key, required this.showRegisterPage});
 
   @override
-  State<AdminLogin> createState() => _AdminLoginState();
+  State<LoginPage> createState() => _LoginPageState();
 }
 
-class _AdminLoginState extends State<AdminLogin> {
+class _LoginPageState extends State<LoginPage> {
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -22,54 +23,25 @@ class _AdminLoginState extends State<AdminLogin> {
         builder: (context) {
           return AlertDialog(
             title: Text('Signing In'),
-            content: Center(
-              child: SingleChildScrollView(
-                child: ListBody(
-                  children: <Widget>[
-                    CircularProgressIndicator(),
-                    SizedBox(height: 10),
-                    Text('Please wait...'),
-                  ],
-                ),
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Center(child: CircularProgressIndicator()),
+                  SizedBox(height: 10),
+                  Text('Please wait...'),
+                ],
               ),
             ),
           );
         },
       );
 
-      final email = _emailController.text;
-      final password = _passwordController.text;
+      await FirebaseAuth.instance.signInWithEmailAndPassword(
+        email: _emailController.text,
+        password: _passwordController.text,
+      );
 
-      final isAdmin = await checkAdmin(email, password);
-
-      if (isAdmin) {
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => AddEvent()),
-        );
-      } else {
-        // Close the dialog
-        Navigator.of(context).pop();
-
-        // Display error message
-        showDialog(
-          context: context,
-          builder: (context) {
-            return AlertDialog(
-              title: Text('Error'),
-              content: Text('Failed to sign in. Please check your credentials and try again.'),
-              actions: <Widget>[
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text('OK'),
-                ),
-              ],
-            );
-          },
-        );
-      }
+      Navigator.of(context).pop(); // Close the dialog
     } catch (error) {
       // Close the dialog
       Navigator.of(context).pop();
@@ -96,21 +68,6 @@ class _AdminLoginState extends State<AdminLogin> {
   }
 
 
-  Future<bool> checkAdmin(String email, String password) async {
-    final adminCollection = FirebaseFirestore.instance.collection('admin');
-    final snapshot = await adminCollection.get();
-    bool isAdmin = false;
-
-    snapshot.docs.forEach((doc) {
-      if (doc['email'] == email && doc['password'] == password) {
-        isAdmin = true;
-      }
-    });
-
-    return isAdmin;
-  }
-
-
   @override
   void dispose() {
     _emailController.dispose();
@@ -128,8 +85,7 @@ class _AdminLoginState extends State<AdminLogin> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  'assets/images/admin_logo.png',
+                Image.asset('assets/images/logo.png',
                   height: 150,
                   width: 150,
                 ),
@@ -138,7 +94,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 ),
                 // Hello Again!
                 Text(
-                  'Welcome Admin!',
+                  'Hello Again!',
                   style: TextStyle(
                     fontSize: 36,
                     fontWeight: FontWeight.bold,
@@ -148,7 +104,7 @@ class _AdminLoginState extends State<AdminLogin> {
                   height: 10,
                 ),
                 Text(
-                  "You can add Events from here",
+                  "Welcome back, you've been missed!",
                   style: TextStyle(
                     fontSize: 22,
                   ),
@@ -169,7 +125,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 20,top: 5,bottom: 5),
                       child: TextField(
                         controller: _emailController,
                         decoration: InputDecoration(
@@ -195,7 +151,7 @@ class _AdminLoginState extends State<AdminLogin> {
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left: 20, top: 5, bottom: 5),
+                      padding: const EdgeInsets.only(left: 20,top: 5,bottom: 5),
                       child: TextField(
                         controller: _passwordController,
                         obscureText: true,
@@ -218,14 +174,10 @@ class _AdminLoginState extends State<AdminLogin> {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => ForgotPasswordPage()),
-                          );
+                        onTap: (){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => ForgotPasswordPage(),),);
                         },
-                        child: Text(
-                          'Forgot Password?',
+                        child: Text('Forgot Password?',
                           style: TextStyle(
                             color: Colors.grey[700],
                             fontSize: 16,
@@ -244,9 +196,7 @@ class _AdminLoginState extends State<AdminLogin> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 25),
                   child: GestureDetector(
-                    onTap: () {
-                      signIn();
-                    },
+                    onTap: signIn,
                     child: Container(
                       padding: EdgeInsets.all(20),
                       decoration: BoxDecoration(
@@ -254,8 +204,7 @@ class _AdminLoginState extends State<AdminLogin> {
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Center(
-                        child: Text(
-                          'Sign In',
+                        child: Text('Sign In',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: 20,
@@ -266,6 +215,52 @@ class _AdminLoginState extends State<AdminLogin> {
                     ),
                   ),
                 ),
+                SizedBox(
+                  height: 18,
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Not a member?',style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),),
+                    TextButton(
+                      onPressed: widget.showRegisterPage,
+                      child: Text('Register Now',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text('Login as',style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
+                    ),),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(context, MaterialPageRoute(builder: (context) => GroundLogin()),);
+                      },
+                      child: Text('Ground Worker',
+                        style: TextStyle(
+                          color: Colors.blue,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+
               ],
             ),
           ),

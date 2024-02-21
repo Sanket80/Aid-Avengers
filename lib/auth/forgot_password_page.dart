@@ -45,6 +45,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
             color: Colors.white,
           ),
         ),
+        iconTheme: IconThemeData(color: Colors.white),
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,

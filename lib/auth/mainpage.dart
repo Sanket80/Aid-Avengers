@@ -1,5 +1,5 @@
 import 'package:bluebit1/auth/auth_page.dart';
-import 'package:bluebit1/pages/homepage.dart';
+import 'package:bluebit1/pages/user/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 

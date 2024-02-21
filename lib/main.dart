@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:bluebit1/api/notification_api.dart';
 import 'package:bluebit1/auth/mainpage.dart';
+import 'package:bluebit1/pages/Bot/mybot.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
@@ -21,30 +21,30 @@ void main() async {
         )
       : await Firebase.initializeApp();
 
-  await AwesomeNotifications().initialize(
-    'resource://drawable/logo.png',
-    [
-      NotificationChannel(
-        channelKey: 'basic_channel',
-        channelName: 'Basic notifications',
-        channelDescription: 'Notification channel for basic tests',
-        defaultColor: Color(0xFF9D50DD),
-        ledColor: Colors.white,
-      )
-    ],
-    channelGroups: [
-      NotificationChannelGroup(
-        channelGroupKey: 'bluebit_group',
-        channelGroupName: 'Bluebit notifications',
-      )
-    ],
-  );
-
-  bool isNotificationAllowed =
-      await AwesomeNotifications().isNotificationAllowed();
-  if (!isNotificationAllowed) {
-    await AwesomeNotifications().requestPermissionToSendNotifications();
-  }
+  // await AwesomeNotifications().initialize(
+  //   'resource://drawable/logo.png',
+  //   [
+  //     NotificationChannel(
+  //       channelKey: 'basic_channel',
+  //       channelName: 'Basic notifications',
+  //       channelDescription: 'Notification channel for basic tests',
+  //       defaultColor: Color(0xFF9D50DD),
+  //       ledColor: Colors.white,
+  //     )
+  //   ],
+  //   channelGroups: [
+  //     NotificationChannelGroup(
+  //       channelGroupKey: 'bluebit_group',
+  //       channelGroupName: 'Bluebit notifications',
+  //     )
+  //   ],
+  // );
+  //
+  // bool isNotificationAllowed =
+  //     await AwesomeNotifications().isNotificationAllowed();
+  // if (!isNotificationAllowed) {
+  //   await AwesomeNotifications().requestPermissionToSendNotifications();
+  // }
 
   runApp(const MyApp());
 }
@@ -57,16 +57,16 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    AwesomeNotifications().setListeners(
-      onActionReceivedMethod: NotificationController.onActionReceivedMethod,
-      onNotificationCreatedMethod: NotificationController.onNotificationCreatedMethod,
-      onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
-      onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
-    );
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   AwesomeNotifications().setListeners(
+  //     onActionReceivedMethod: NotificationController.onActionReceivedMethod,
+  //     onNotificationCreatedMethod: NotificationController.onNotificationCreatedMethod,
+  //     onNotificationDisplayedMethod: NotificationController.onNotificationDisplayedMethod,
+  //     onDismissActionReceivedMethod: NotificationController.onDismissActionReceivedMethod,
+  //   );
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {

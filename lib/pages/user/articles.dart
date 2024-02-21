@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../dummy_data.dart';
+import '../../DummyData/dummy_data.dart';
 
 class ArticlesPage extends StatelessWidget {
   @override

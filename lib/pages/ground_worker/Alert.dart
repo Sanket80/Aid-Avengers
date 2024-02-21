@@ -1,117 +1,19 @@
-import 'package:bluebit1/auth/mainpage.dart';
-import 'package:bluebit1/pages/admin_login.dart';
-import 'package:bluebit1/pages/donation_screen.dart';
-import 'package:bluebit1/pages/homepage.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:bluebit1/pages/user/homepage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
-import 'package:intl/intl.dart';
 
-class AddEvent extends StatefulWidget {
-  const AddEvent({super.key});
+import '../Home_Screen.dart';
+
+class Alert extends StatefulWidget {
+  const Alert({Key? key}) : super(key: key);
 
   @override
-  State<AddEvent> createState() => _AddEventState();
+  State<Alert> createState() => _AlertState();
 }
 
-class _AddEventState extends State<AddEvent> {
-
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _stateController = TextEditingController();
-  TextEditingController _cityController = TextEditingController();
-  TextEditingController _emergencyNoController = TextEditingController();
-  TextEditingController _descriptionController = TextEditingController();
-
-  Future<void> addEvent() async {
-    try {
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Adding Event'),
-            content: SingleChildScrollView(
-              child: ListBody(
-                children: <Widget>[
-                  CircularProgressIndicator(),
-                  SizedBox(height: 10),
-                  Text('Please wait...'),
-                ],
-              ),
-            ),
-          );
-        },
-      );
-
-      // Format the current time as desired
-      String formattedTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(DateTime.now());
-
-      await FirebaseFirestore.instance.collection('Events').add({
-        'title': _titleController.text,
-        'state': _stateController.text,
-        'city': _cityController.text,
-        'emergency_no': _emergencyNoController.text,
-        'news': _descriptionController.text,
-        'time': formattedTime, // Use the formatted time
-      });
-
-      Navigator.of(context).pop(); // Close the dialog
-    } catch (error) {
-      // Close the dialog
-      Navigator.of(context).pop();
-
-      // Display error message
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to add event. Please try again.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-  // Want to Logout admin
-  Future<void> logout() async {
-    try {
-      await FirebaseAuth.instance.signOut();
-      Navigator.push(
-        context,
-        MaterialPageRoute(builder: (context) => MainPage()),
-      );
-    } catch (error) {
-      // Display error message
-      showDialog(
-        context: context,
-        builder: (context) {
-          return AlertDialog(
-            title: Text('Error'),
-            content: Text('Failed to sign out. Please try again.'),
-            actions: <Widget>[
-              TextButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('OK'),
-              ),
-            ],
-          );
-        },
-      );
-    }
-  }
-
-
+class _AlertState extends State<Alert> {
+  int _selectedIndex = 3;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -133,31 +35,41 @@ class _AddEventState extends State<AddEvent> {
                         bottom: 4,
                       ),
                       child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween, // or MainAxisAlignment.spaceAround
                         children: [
-                          Image.asset(
-                            'assets/images/logo.png',
-                            width: 50,
-                            height: 50,
-                          ),
-                          const SizedBox(
-                            width: 6,
-                          ),
-                          const Text(
-                            'Aid Avengers',
-                            style: TextStyle(
-                              fontSize: 30,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
-                          // logout button
-                          Spacer(),
                           IconButton(
                             onPressed: () {
-                              logout();
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(builder: (context) => HomePage()),
+                              );
                             },
-                            icon: Icon(Icons.logout),
+                            icon: Icon(
+                              Icons.arrow_back,
+                              color: Colors.black,
+                              size: 30,
+                            ),
                           ),
+                          Row(
+                            children: [
+                              Image.asset(
+                                'assets/images/logo.png',
+                                width: 50,
+                                height: 50,
+                              ),
+                              const SizedBox(
+                                width: 6,
+                              ),
+                              const Text(
+                                'Aid Avengers',
+                                style: TextStyle(
+                                  fontSize: 30,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ],
+                          ),
+                          SizedBox(width: 40), // Add spacing between back button and title
                         ],
                       ),
                     ),
@@ -169,7 +81,7 @@ class _AddEventState extends State<AddEvent> {
                         Align(
                           alignment: Alignment.centerLeft,
                           child: const Text(
-                            'Event Generation',
+                            'Alert Generation',
                             style: TextStyle(
                               fontSize: 25,
                               fontWeight: FontWeight.bold,
@@ -205,7 +117,6 @@ class _AddEventState extends State<AddEvent> {
                       children: [
                         Flexible(
                           child: TextField(
-                            controller: _titleController,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -221,7 +132,7 @@ class _AddEventState extends State<AddEvent> {
                                   width: 1,
                                 ),
                               ),
-                              hintText: 'Title',
+                              hintText: 'Name',
                               hintStyle: TextStyle(
                                 color: Colors.grey[600],
                               ),
@@ -237,7 +148,11 @@ class _AddEventState extends State<AddEvent> {
                       children: [
                         Flexible(
                           child: TextField(
-                            controller: _stateController,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: <TextInputFormatter>[
+                              FilteringTextInputFormatter.digitsOnly,
+                              LengthLimitingTextInputFormatter(10),
+                            ],
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -253,39 +168,7 @@ class _AddEventState extends State<AddEvent> {
                                   width: 1,
                                 ),
                               ),
-                              hintText: 'State',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: TextField(
-                            controller: _cityController,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.black87,
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              hintText: 'City',
+                              hintText: 'Phone Number',
                               hintStyle: TextStyle(
                                 color: Colors.grey[600],
                               ),
@@ -349,40 +232,6 @@ class _AddEventState extends State<AddEvent> {
                       children: [
                         Flexible(
                           child: TextField(
-                            keyboardType: TextInputType.number,
-                            controller: _emergencyNoController,
-                            decoration: InputDecoration(
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.black87,
-                                  width: 1,
-                                ),
-                              ),
-                              focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10),
-                                borderSide: BorderSide(
-                                  color: Colors.black,
-                                  width: 1,
-                                ),
-                              ),
-                              hintText: 'Emergency Number',
-                              hintStyle: TextStyle(
-                                color: Colors.grey[600],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(
-                      height: 16,
-                    ),
-                    Row(
-                      children: [
-                        Flexible(
-                          child: TextField(
-                            controller: _descriptionController,
                             decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -410,7 +259,6 @@ class _AddEventState extends State<AddEvent> {
                     const SizedBox(
                       height: 16,
                     ),
-
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
@@ -419,9 +267,60 @@ class _AddEventState extends State<AddEvent> {
                             width: double.infinity,
                             height: 50,
                             child: ElevatedButton(
-                              onPressed: addEvent,
+                              onPressed: () {},
                               child: Text(
-                                'Create Event',
+                                'Location',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                primary: Colors.black87,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 6,
+                    ),
+                    Row(
+                      children: [
+                        Flexible(
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: Text(
+                              'Click on the button to provide the location of the disaster',
+                              style: TextStyle(
+                                fontSize: 14,
+                                color: Colors.grey,
+                              ),
+                              softWrap: true,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(
+                      height: 30,
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Flexible(
+                          child: Container(
+                            width: double.infinity,
+                            height: 50,
+                            child: ElevatedButton(
+                              onPressed: () {},
+                              child: Text(
+                                'Raise Alert',
                                 style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 16,
@@ -439,6 +338,9 @@ class _AddEventState extends State<AddEvent> {
                         ),
                       ],
                     ),
+                    SizedBox(
+                      height: 17.9,
+                    )
                   ],
                 ),
               ),
@@ -451,27 +353,63 @@ class _AddEventState extends State<AddEvent> {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: GNav(
+            selectedIndex: _selectedIndex,
             backgroundColor: Colors.black,
             activeColor: Colors.white,
             color: Colors.white,
-            tabBackgroundColor: Colors.grey.shade900,
+            tabBackgroundColor: Colors.grey.shade800,
             gap: 8,
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.all(12),
             tabs: [
-              GButton(icon: Icons.home, text: 'Home',onPressed: (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => MainPage()));
-              },),
-              GButton(icon: Icons.monetization_on_outlined, text: 'Donate',
-                onPressed: (){
-                  Navigator.push(context, MaterialPageRoute(builder: (context) => DonationScreen()));
-                },),
-              GButton(icon: Icons.search, text: 'Search'),
-              GButton(icon: Icons.settings,text: 'Settings',),
-            ],),
+              GButton(
+                icon: Icons.home,
+                text: 'Home',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 0;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
+                },
+              ),
+              GButton(
+                icon: Icons.call,
+                text: 'Contact',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 1;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.chat,
+                text: 'Chat',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 2;
+                  });
+                },
+              ),
+              GButton(
+                icon: Icons.home_work_outlined,
+                text: 'Alert',
+                onPressed: () {
+                  setState(() {
+                    _selectedIndex = 3;
+                  });
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Alert()),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
       ),
     );
   }
 
-
-  }
+}
