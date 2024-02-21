@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:bluebit1/api/notification_api.dart';
 import 'package:bluebit1/auth/mainpage.dart';
 import 'package:bluebit1/pages/Bot/mybot.dart';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await EasyLocalization.ensureInitialized();
+
   String storageBucketUrl = 'gs://bluebit-bd5bf.appspot.com';
   Platform.isAndroid
       ? await Firebase.initializeApp(
@@ -46,8 +49,12 @@ void main() async {
   //   await AwesomeNotifications().requestPermissionToSendNotifications();
   // }
 
-  runApp(const MyApp());
-}
+  runApp(EasyLocalization(
+    supportedLocales: [Locale('en', 'US'), Locale('hi', 'IN')],
+    path: 'assets/translations',
+    fallbackLocale: Locale('en', 'US'),
+    child: const MyApp(),
+  ));}
 
 class MyApp extends StatefulWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -71,6 +78,9 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      locale: context.locale, // Access locale directly from context
+      localizationsDelegates: context.localizationDelegates, // Handle delegates automatically
+      supportedLocales: context.supportedLocales,
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,

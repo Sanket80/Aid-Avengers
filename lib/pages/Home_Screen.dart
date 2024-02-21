@@ -1,7 +1,9 @@
 import 'dart:collection';
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:google_nav_bar/google_nav_bar.dart';
 
+import '../Widgets/languagechanger.dart';
 import 'ground_worker/Alert.dart';
 import 'ground_worker/CategoryScreen.dart';
 import 'package:bluebit1/Pages/ground_worker/MapView.dart';
@@ -35,8 +37,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
-                        'Home',
+                      Text(
+                        'home'.tr(),
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -52,9 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
                             width: 1.0,
                           ),
                         ),
-                        child: Icon(
-                          Icons.person,
-                          size: 30,
+                        child: IconButton(
+                          onPressed: () {
+                            LocalizationChecker.changeLanguage(context, () => setState(() {}));
+                          },
+                          icon: Icon(Icons.language),
                         ),
                       ),
                     ],
@@ -78,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              'List of Help',
+                              'List of Help'.tr(),
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 16,
@@ -114,7 +118,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                             child: Center(
                               child: Text(
-                                'Map View',
+                                'Map View'.tr(),
                                 style: TextStyle(
                                   color: Colors.black87,
                                   fontSize: 16,
@@ -140,8 +144,8 @@ class _HomeScreenState extends State<HomeScreen> {
                       const SizedBox(
                         width: 4,
                       ),
-                      const Text(
-                        'Categories',
+                      Text(
+                        'Categories'.tr(),
                         style: TextStyle(
                           fontSize: 20,
                           color: Colors.grey,
@@ -167,10 +171,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   crossAxisSpacing: 25,
                   mainAxisSpacing: 20,
                   children: [
-                    _buildCategoryContainer(Icons.food_bank, 'Food'),
-                    _buildCategoryContainer(Icons.medical_services, 'Medical'),
-                    _buildCategoryContainer(Icons.person, 'Human Resources'),
-                    _buildCategoryContainer(Icons.search, 'Search and Rescue'),
+                    _buildCategoryContainer(Icons.food_bank, 'Food'.tr()),
+                    _buildCategoryContainer(Icons.medical_services, 'Medical'.tr()),
+                    _buildCategoryContainer(Icons.person, 'Human Resources'.tr()),
+                    _buildCategoryContainer(Icons.search, 'Search and Rescue'.tr()),
                   ],
                 ),
               ),
