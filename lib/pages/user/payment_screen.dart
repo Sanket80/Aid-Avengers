@@ -268,7 +268,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               ),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.black,
+                              backgroundColor: Colors.black,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
                               ),

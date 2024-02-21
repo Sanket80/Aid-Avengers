@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../../DummyData/dummy_data.dart';
+import '../comment_page.dart';
 
 class ArticlesPage extends StatelessWidget {
   @override
@@ -100,6 +101,8 @@ class ArticlesPage extends StatelessWidget {
                         IconButton(
                           onPressed: () {
                             // Add your comments logic here
+                            Navigator.push(context, MaterialPageRoute(builder:
+                            (context) => CommentPage()));
                           },
                           icon: Icon(
                             Icons.comment,

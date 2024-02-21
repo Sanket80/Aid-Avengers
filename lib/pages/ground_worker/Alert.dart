@@ -277,7 +277,7 @@ class _AlertState extends State<Alert> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.black87,
+                                backgroundColor: Colors.black87,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
@@ -328,7 +328,7 @@ class _AlertState extends State<Alert> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
+                                backgroundColor: Colors.red,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),

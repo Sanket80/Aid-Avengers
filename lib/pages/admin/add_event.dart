@@ -450,7 +450,7 @@ class _AddEventState extends State<AddEvent> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
+                                backgroundColor: Colors.red,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),

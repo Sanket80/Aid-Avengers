@@ -55,8 +55,7 @@ class AlertCard extends StatelessWidget {
                       // Add your logic here
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.white, // Set background color to transparent
-                      onPrimary: Colors.black, // Set text color to black
+                      foregroundColor: Colors.black, backgroundColor: Colors.white, // Set text color to black
                       side: BorderSide(color: Colors.black), // Add black border
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
@@ -74,8 +73,7 @@ class AlertCard extends StatelessWidget {
                     onPressed: () {
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Colors.black,
-                      onPrimary: Colors.white,
+                      foregroundColor: Colors.white, backgroundColor: Colors.black,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(6),
                       ),

@@ -112,8 +112,8 @@ class DonationCard extends StatelessWidget {
                   Navigator.push(context, MaterialPageRoute(builder: (context) => PaymentScreen()));
                 },
                 style: ElevatedButton.styleFrom(
-                  primary: Colors.black,
-                  onPrimary: Colors.white,
+                  foregroundColor: Colors.white,
+                  backgroundColor: Colors.black,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(6),
                   ),

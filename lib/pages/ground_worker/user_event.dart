@@ -470,8 +470,7 @@ class _UserEventsState extends State<UserEvents> {
                               child: ElevatedButton(
                                 onPressed: _getImage,
                                 style: ElevatedButton.styleFrom(
-                                  primary: Colors.white, // Set button background color to white
-                                  onPrimary: Colors.black, // Set button text color to black
+                                  foregroundColor: Colors.black, backgroundColor: Colors.white, // Set button text color to black
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
@@ -516,7 +515,7 @@ class _UserEventsState extends State<UserEvents> {
                                 ),
                               ),
                               style: ElevatedButton.styleFrom(
-                                primary: Colors.red,
+                                backgroundColor: Colors.red,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
