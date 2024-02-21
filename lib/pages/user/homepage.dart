@@ -48,6 +48,7 @@ class _HomePageState extends State<HomePage> {
         time: DateTime.parse(doc['time']),
         news: doc['news'],
         title: doc['title'],
+        typeOfDisaster: doc['type_of_disaster'],
       );
       loadedEvents.add(eventData);
     });
@@ -66,6 +67,22 @@ class _HomePageState extends State<HomePage> {
       filteredEvents = events.where((event) => event.city.toLowerCase().contains(query.toLowerCase())).toList();
     });
   }
+
+  // filter Disasters
+  void _filterEventsByDisasterType(String query) {
+    setState(() {
+      if (query.isEmpty) {
+        // If the query is empty, show all events
+        filteredEvents = events;
+      } else {
+        // Filter events by type_of_disaster
+    filteredEvents = events.where((event) => event.typeOfDisaster.toLowerCase().contains(query.toLowerCase())).toList();
+    }
+  });
+
+
+  }
+
 
   int _selectedIndex = 0;
 
@@ -105,15 +122,134 @@ class _HomePageState extends State<HomePage> {
               controller: _searchController,
               onChanged: _filterEvents,
               decoration: InputDecoration(
-                labelText: 'Search',
+                // labelText: 'Search',
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 prefixIcon: Padding(
-                  padding: const EdgeInsets.only(
-                    left: 24.0,
-                    right: 8.0,
+                  padding: const EdgeInsets.only(left: 24.0, right: 8.0),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(Icons.search, color: Colors.white),
+                      SizedBox(width: 12), // Adjust the spacing between icons as needed
+                      GestureDetector(
+                        onTap: (){
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return SingleChildScrollView(
+                                child: AlertDialog(
+                                  title: Text('Filter by Disaster Type'),
+                                  content: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ListTile(
+                                        title: Text('Flood'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('flood');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Earthquake'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('earthquake');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Tornado'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('tornado');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Hurricane'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('hurricane');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Wildfire'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('wildfire');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Drought'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('drought');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Tsunami'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('tsunami');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Volcano'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('volcano');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Landslide'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('landslide');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Blizzard'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('blizzard');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Heatwave'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('heatwave');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title: Text('Cyclone'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('cyclone');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                      ListTile(
+                                        title:
+                                        Text('All'),
+                                        onTap: () {
+                                          _filterEventsByDisasterType('');
+                                          Navigator.pop(context);
+                                        },
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+                        }, // Call the function to open the filter dialog
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 230,
+                          ),
+                          child: Icon(Icons.filter_list, color: Colors.white),
+                        ),
+                      ),
+                    ],
                   ),
-
-                  child: Icon(Icons.search, color: Colors.white),
                 ),
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(32.0),
@@ -128,6 +264,8 @@ class _HomePageState extends State<HomePage> {
               ),
               style: TextStyle(color: Colors.white), // Text color
             ),
+
+
           ),
 
           Expanded(

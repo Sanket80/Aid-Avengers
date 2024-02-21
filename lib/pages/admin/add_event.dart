@@ -25,6 +25,7 @@ class _AddEventState extends State<AddEvent> {
   TextEditingController _cityController = TextEditingController();
   TextEditingController _emergencyNoController = TextEditingController();
   TextEditingController _descriptionController = TextEditingController();
+  String? _selectedDisaster;
 
   int _selectedIndex = 3;
 
@@ -51,6 +52,9 @@ class _AddEventState extends State<AddEvent> {
       // Format the current time as desired
       String formattedTime = DateFormat("yyyy-MM-dd'T'HH:mm:ss").format(DateTime.now());
 
+      // Extract the selected type of disaster from the dropdown
+      String selectedDisaster = _selectedDisaster ?? 'Other';
+
       await FirebaseFirestore.instance.collection('Events').add({
         'title': _titleController.text,
         'state': _stateController.text,
@@ -58,6 +62,7 @@ class _AddEventState extends State<AddEvent> {
         'emergency_no': _emergencyNoController.text,
         'news': _descriptionController.text,
         'time': formattedTime, // Use the formatted time
+        'type_of_disaster': selectedDisaster, // Add type of disaster to Firestore
       });
 
       Navigator.of(context).pop(); // Close the dialog
@@ -351,7 +356,9 @@ class _AddEventState extends State<AddEvent> {
                                 child: Text(value),
                               );
                             }).toList(),
-                            onChanged: (String? value) {},
+                            onChanged: (String? value) {
+                              _selectedDisaster = value;
+                            },
                           ),
                         ),
                       ],

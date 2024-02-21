@@ -5,6 +5,7 @@ class EventData {
   final DateTime time;
   final String news;
   final String title;
+  final String typeOfDisaster;
 
   EventData({
     required this.state,
@@ -13,5 +14,6 @@ class EventData {
     required this.time,
     required this.news,
     required this.title,
+    required this.typeOfDisaster,
   });
 }
